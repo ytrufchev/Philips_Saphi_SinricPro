@@ -34,50 +34,21 @@ WakeOnLan WOL(UDP); // Pass WiFiUDP class
 #include "SinricPro.h"
 #include "SinricProTV.h"
 
-#define WIFI_SSID         ""    
-#define WIFI_PASS         ""
-#define APP_KEY           ""      // Should look like "de0bxxxx-1x3x-4x3x-ax2x-5dabxxxxxxxx"
-#define APP_SECRET        ""   // Should look like "5f36xxxx-x3x7-4x3x-xexe-e86724a9xxxx-4c4axxxx-3x3x-x5xe-x9x3-333d65xxxxxx"
-#define TV_ID             ""    // Should look like "5dc1564130xxxxxxxxxxxxxx"
+
+String TV_IP =            "192.168.1.15"; //IP address of your TV
+String TV_PORT =          "1925"; //Port for the TV API
+String API_V =            "6"; // API version of the TV
+#define WIFI_SSID         "Mihaela89"    
+#define WIFI_PASS         "bjjjbjjj"
+#define APP_KEY           "f334caaa-d38f-4a4b-b273-d9a29f00632e"      // Should look like "de0bxxxx-1x3x-4x3x-ax2x-5dabxxxxxxxx"
+#define APP_SECRET        "a41c5a7f-f782-438a-87e8-eb5069f0051c-294b2e36-4338-4e0f-8d48-9830b0b39836"   // Should look like "5f36xxxx-x3x7-4x3x-xexe-e86724a9xxxx-4c4axxxx-3x3x-x5xe-x9x3-333d65xxxxxx"
+#define TV_ID             "5fdc5dd52418ce762ce533ea"    // Should look like "5dc1564130xxxxxxxxxxxxxx"
 #define BAUD_RATE         115200              // Change baudrate to your need
 
 bool tvPowerState;
 unsigned int tvVolume;
 unsigned int tvChannel;
 bool tvMuted;
-
-// channelNames used to convert channelNumber into channelName
-// please put in your TV channel names
-// channel numbers starts counting from 0!
-// so "ZDF" is channel 2
-const char* channelNames[] = {
-  "A/V",
-  "ard", 
-  "ZDF", 
-  "n. d. r.", 
-  "kabel eins", 
-  "VOX", 
-  "Sat.1", 
-  "ProSieben", 
-  "rtl", 
-  "RTL II", 
-  "SUPER RTL", 
-  "KiKA"
-};
-
-#define MAX_CHANNELS sizeof(channelNames) / sizeof(channelNames[0])  // just to determine how many channels are in channelNames array
-
-// map channelNumbers used to convert channelName into channelNumber
-// This map is initialized in "setupChannelNumbers()" function by using the "channelNames" array
-std::map<String, unsigned int> channelNumbers;
-
-void setupChannelNumbers() {
-  for (unsigned int i=0; i < MAX_CHANNELS; i++) {
-    channelNumbers[channelNames[i]] = i;
-  }
-}
-
-// TV device callbacks
 
 bool onAdjustVolume(const String &deviceId, int &volumeDelta, bool volumeDefault) {
   tvVolume += volumeDelta;  // calcualte new absolute volume
@@ -108,7 +79,7 @@ bool onMediaControl(const String &deviceId, String &control) {
   if (control == "Play") {
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -123,7 +94,7 @@ bool onMediaControl(const String &deviceId, String &control) {
   if (control == "Pause") {
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -138,7 +109,7 @@ bool onMediaControl(const String &deviceId, String &control) {
   if (control == "Stop") {
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -154,7 +125,7 @@ bool onMediaControl(const String &deviceId, String &control) {
   if (control == "Previous") {
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -169,7 +140,7 @@ bool onMediaControl(const String &deviceId, String &control) {
   if (control == "Next") {
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -184,7 +155,7 @@ bool onMediaControl(const String &deviceId, String &control) {
   if (control == "Rewind") {
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -199,7 +170,7 @@ bool onMediaControl(const String &deviceId, String &control) {
   if (control == "FastForward") {
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -217,7 +188,7 @@ bool onMediaControl(const String &deviceId, String &control) {
 bool onMute(const String &deviceId, bool &mute) {
            HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -236,14 +207,14 @@ bool onMute(const String &deviceId, bool &mute) {
 bool onPowerState(const String &deviceId, bool &state) {
                HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/system";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/system";
       http.begin(Link); 
       int httpResponseCode = http.GET();
       Serial.println(httpResponseCode);
       if (httpResponseCode == 200){
         HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -257,7 +228,7 @@ else if (httpResponseCode != 200){
   WOL.sendMagicPacket(MACAddress, 7);
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -272,49 +243,10 @@ bool state = true;
 }
 
 bool onSelectInput(const String &deviceId, String &input) {
-  if(input == "PLAYSTATION FOUR"){
-            HTTPClient http;
-      
-      String Link = "http://192.168.1.15:1925/6/input/key";
-      http.begin(Link); 
-      // If you need an HTTP request with a content type: application/json, use the following:
-      http.addHeader("Content-Type", "application/json");
-      int httpResponseCode = http.POST("{\"key\" : \"Source\"}");
-      http.end();
-      for (int count = 0; count <= 8; count++){
-         HTTPClient http;
-      
-      String Link = "http://192.168.1.15:1925/6/input/key";
-      http.begin(Link); 
-      // If you need an HTTP request with a content type: application/json, use the following:
-      http.addHeader("Content-Type", "application/json");
-      int httpResponseCode = http.POST("{\"key\" : \"CursorLeft\"}");
-      http.end();
-      }
-      for (int count = 0; count <= 3; count++){
-         HTTPClient http;
-      
-      String Link = "http://192.168.1.15:1925/6/input/key";
-      http.begin(Link); 
-      // If you need an HTTP request with a content type: application/json, use the following:
-      http.addHeader("Content-Type", "application/json");
-      int httpResponseCode = http.POST("{\"key\" : \"CursorRight\"}");
-      http.end();
-      }
-               HTTPClient http1;
-      
-      String Link1 = "http://192.168.1.15:1925/6/input/key";
-      http1.begin(Link1); 
-      // If you need an HTTP request with a content type: application/json, use the following:
-      http1.addHeader("Content-Type", "application/json");
-      int httpResponse = http1.POST("{\"key\" : \"Confirm\"}");
-      http1.end();
-      
-  }
-  if(input == "TV"){
+  if(input == "HDMI ONE"){
                 HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -324,7 +256,91 @@ bool onSelectInput(const String &deviceId, String &input) {
             for (int count = 0; count <= 8; count++){
          HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http.begin(Link); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http.addHeader("Content-Type", "application/json");
+      int httpResponseCode = http.POST("{\"key\" : \"CursorLeft\"}");
+      http.end();
+      delay(100);
+      }
+      delay(100);
+      for (int count = 0; count <= 3; count++){
+         HTTPClient http;
+      
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http.begin(Link); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http.addHeader("Content-Type", "application/json");
+      int httpResponseCode = http.POST("{\"key\" : \"CursorRight\"}");
+      http.end();
+      }
+      delay(100);
+               HTTPClient http1;
+      
+      String Link1 = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http1.begin(Link1); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http1.addHeader("Content-Type", "application/json");
+      int httpResponse = http1.POST("{\"key\" : \"Confirm\"}");
+      http1.end();
+
+  }
+  if(input == "HDMI TWO"){
+            HTTPClient http;
+      
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http.begin(Link); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http.addHeader("Content-Type", "application/json");
+      int httpResponseCode = http.POST("{\"key\" : \"Source\"}");
+      http.end();
+      for (int count = 0; count <= 8; count++){
+         HTTPClient http;
+      
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http.begin(Link); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http.addHeader("Content-Type", "application/json");
+      int httpResponseCode = http.POST("{\"key\" : \"CursorLeft\"}");
+      http.end();
+      delay(100);
+      }
+      for (int count = 0; count <= 4; count++){
+         HTTPClient http;
+      
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http.begin(Link); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http.addHeader("Content-Type", "application/json");
+      int httpResponseCode = http.POST("{\"key\" : \"CursorRight\"}");
+      http.end();
+      delay(100);
+      }
+               HTTPClient http1;
+      
+      String Link1 = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http1.begin(Link1); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http1.addHeader("Content-Type", "application/json");
+      int httpResponse = http1.POST("{\"key\" : \"Confirm\"}");
+      http1.end();
+      
+  }
+  if(input == "HDMI THREE"){
+                HTTPClient http;
+      
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
+      http.begin(Link); 
+      // If you need an HTTP request with a content type: application/json, use the following:
+      http.addHeader("Content-Type", "application/json");
+      int httpResponseCode = http.POST("{\"key\" : \"Source\"}");
+      http.end();
+
+            for (int count = 0; count <= 8; count++){
+         HTTPClient http;
+      
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -336,7 +352,7 @@ bool onSelectInput(const String &deviceId, String &input) {
       for (int count = 0; count <= 5; count++){
          HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/input/key";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http.begin(Link); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http.addHeader("Content-Type", "application/json");
@@ -346,7 +362,7 @@ bool onSelectInput(const String &deviceId, String &input) {
       delay(100);
                HTTPClient http1;
       
-      String Link1 = "http://192.168.1.15:1925/6/input/key";
+      String Link1 = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
       http1.begin(Link1); 
       // If you need an HTTP request with a content type: application/json, use the following:
       http1.addHeader("Content-Type", "application/json");
@@ -359,21 +375,9 @@ bool onSelectInput(const String &deviceId, String &input) {
 }
 
 bool onSetVolume(const String &deviceId, int &volume) {
-//                  HTTPClient http;
-//      
-//      String Link = "http://192.168.1.15:1925/6/audio/volume";
-//      http.begin(Link); 
-//      int httpResponseCode = http.GET();
-//      String payload = http.getString();
-//      DynamicJsonDocument doc(2048);
-//deserializeJson(doc, http.getString());
-
-// Read values
-//Serial.println(doc["current"].as<long>());
-//http.end();
           HTTPClient http;
       
-      String Link = "http://192.168.1.15:1925/6/audio/volume";
+      String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/audio/volume";
       http.begin(Link); 
       String val = String(volume);
       String data = "{\"current\": " + val + "}";
@@ -447,22 +451,50 @@ void setup() {
   setupChannelNumbers();
 }
 
+int powerState;
+
 void loop() {
   SinricPro.handle();
   delay(2000);
-                HTTPClient http;
+
+                HTTPClient http1;
       
-      String Link = "http://192.168.1.15:1925/6/system";
-      http.begin(Link); 
-      int httpResponseCode = http.GET();
-      Serial.println(httpResponseCode);
-      if (httpResponseCode == 200){
-       bool state = true;
-bool setPowerState (bool state);
+      String Link1 = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/system";
+      http1.begin(Link1); 
+      int httpResponseCode1 = http1.GET();
+      Serial.println(httpResponseCode1);
+
+      if (httpResponseCode1 == 200 && powerState != 200){
+             SinricProTV& myTV = SinricPro[TV_ID];
+myTV.sendPowerStateEvent(true);   
+
 }
-   if (httpResponseCode != 200){
-      bool state = false;
-bool setPowerState (bool state);
+   if (httpResponseCode1 != 200 && powerState == 200){
+         SinricProTV& myTV = SinricPro[TV_ID];
+myTV.sendPowerStateEvent(false);   
 }
-http.end();
+http1.end();
+powerState = httpResponseCode1;
+HTTPClient http2;
+      
+      String Link2 = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/audio/volume";
+      http2.begin(Link2); 
+      int httpResponseCode2 = http2.GET();
+      String responseData = http2.getString();
+       const char* json = responseData.c_str();
+        DynamicJsonDocument doc(2048);
+        deserializeJson(doc, json);
+         int current = doc["current"];
+         bool muted = doc["muted"];
+      http2.end();
+                  if (tvVolume != current){
+         SinricProTV& myTV = SinricPro[TV_ID];
+bool success = myTV.sendVolumeEvent(current); 
+tvVolume = current;
+}
+            if (muted != tvMuted){
+               SinricProTV& myTV = SinricPro[TV_ID];
+bool success = myTV.sendMuteEvent(muted);  
+tvMuted = muted;
+}
 }
