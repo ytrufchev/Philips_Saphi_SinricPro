@@ -30,11 +30,11 @@ HOW TO USE
       4. Switching inputs work only for HDMI 1 and HDMI 3 for now. because Saphi OS does not allow for direct input switching I implemented a workaround where an input
       key is send for "Source" then the left arrow is pressed 9 times to go to the left most option and the right arrow is pressed to go to the selected source followed   by confirmation key to activate the source.
       5. Mute/Unmute function is working as intented.
+      6. Physical interation with remote updates sinric.pro server for on/off, mute/unmute and volume cahnge, but the mobile app needs restarting to show the change.
  
  THINGS THAT DON'T WORK
  
-      1. switching inputs to anything but HDMI 1(Playstation 4) and HDMI 3(TV) do not work right now.
-      3. hardware interaction with remote does not update the sinric.pro device status. Changing volume from remove, on/off, changing sources from remote, mute/unmute.
+      1. switching inputs to anything but HDMI 1, HDMI 2 and HDMI 3 do not work right now.
       These will be fixed in the future.
       
       Tested on philips 43PUS6703/12
