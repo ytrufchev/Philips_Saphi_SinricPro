@@ -57,23 +57,6 @@ bool onAdjustVolume(const String &deviceId, int &volumeDelta, bool volumeDefault
   return true;
 }
 
-bool onChangeChannel(const String &deviceId, String &channel) {
-  tvChannel = channelNumbers[channel]; // save new channelNumber in tvChannel variable
-  Serial.printf("Change channel to \"%s\" (channel number %d)\r\n", channel.c_str(), tvChannel);
-  return true;
-}
-
-bool onChangeChannelNumber(const String& deviceId, int channelNumber, String& channelName) {
-  tvChannel = channelNumber; // update tvChannel to new channel number
-  if (tvChannel < 0) tvChannel = 0;
-  if (tvChannel > MAX_CHANNELS-1) tvChannel = MAX_CHANNELS-1;
-
-  channelName = channelNames[tvChannel]; // return the channelName
-
-  Serial.printf("Change to channel to %d (channel name \"%s\")\r\n", tvChannel, channelName.c_str());
-  return true;
-}
-
 bool onMediaControl(const String &deviceId, String &control) {
   Serial.printf("MediaControl: %s\r\n", control.c_str());
   if (control == "Play") {
@@ -286,7 +269,7 @@ bool onSelectInput(const String &deviceId, String &input) {
       http1.end();
 
   }
-  if(input == "HDMI TWO"){
+  if(input == "PLAYSTATION FOUR"){
             HTTPClient http;
       
       String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
@@ -327,7 +310,7 @@ bool onSelectInput(const String &deviceId, String &input) {
       http1.end();
       
   }
-  if(input == "HDMI THREE"){
+  if(input == "TV"){
                 HTTPClient http;
       
       String Link = "http://"+ TV_IP +":"+TV_PORT+"/"+API_V+"/input/key";
@@ -395,17 +378,6 @@ bool onSetVolume(const String &deviceId, int &volume) {
   return true;
 }
 
-bool onSkipChannels(const String &deviceId, const int channelCount, String &channelName) {
-  tvChannel += channelCount; // calculate new channel number
-  if (tvChannel < 0) tvChannel = 0;
-  if (tvChannel > MAX_CHANNELS-1) tvChannel = MAX_CHANNELS-1;
-  channelName = String(channelNames[tvChannel]); // return channel name
-
-  Serial.printf("Skip channel: %i (number: %i / name: \"%s\")\r\n", channelCount, tvChannel, channelName.c_str());
-
-  return true;
-}
-
 // setup function for WiFi connection
 void setupWiFi() {
   Serial.printf("\r\n[Wifi]: Connecting");
@@ -426,14 +398,11 @@ void setupSinricPro() {
 
   // set callback functions to device
   myTV.onAdjustVolume(onAdjustVolume);
-  myTV.onChangeChannel(onChangeChannel);
-  myTV.onChangeChannelNumber(onChangeChannelNumber);
   myTV.onMediaControl(onMediaControl);
   myTV.onMute(onMute);
   myTV.onPowerState(onPowerState);
   myTV.onSelectInput(onSelectInput);
   myTV.onSetVolume(onSetVolume);
-  myTV.onSkipChannels(onSkipChannels);
 
   // setup SinricPro
   SinricPro.onConnected([](){ Serial.printf("Connected to SinricPro\r\n"); }); 
@@ -444,11 +413,9 @@ void setupSinricPro() {
 // main setup function
 void setup() {
   Serial.begin(BAUD_RATE); Serial.printf("\r\n\r\n");
-  Serial.printf("%d channels configured\r\n", MAX_CHANNELS);
 
   setupWiFi();
   setupSinricPro();
-  setupChannelNumbers();
 }
 
 int powerState;
