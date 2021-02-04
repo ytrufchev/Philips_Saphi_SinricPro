@@ -38,11 +38,11 @@ WakeOnLan WOL(UDP); // Pass WiFiUDP class
 String TV_IP =            "192.168.1.15"; //IP address of your TV
 String TV_PORT =          "1925"; //Port for the TV API
 String API_V =            "6"; // API version of the TV
-#define WIFI_SSID         "Mihaela89"    
-#define WIFI_PASS         "bjjjbjjj"
-#define APP_KEY           "f334caaa-d38f-4a4b-b273-d9a29f00632e"      // Should look like "de0bxxxx-1x3x-4x3x-ax2x-5dabxxxxxxxx"
-#define APP_SECRET        "a41c5a7f-f782-438a-87e8-eb5069f0051c-294b2e36-4338-4e0f-8d48-9830b0b39836"   // Should look like "5f36xxxx-x3x7-4x3x-xexe-e86724a9xxxx-4c4axxxx-3x3x-x5xe-x9x3-333d65xxxxxx"
-#define TV_ID             "5fdc5dd52418ce762ce533ea"    // Should look like "5dc1564130xxxxxxxxxxxxxx"
+#define WIFI_SSID         ""    
+#define WIFI_PASS         ""
+#define APP_KEY           ""      // Should look like "de0bxxxx-1x3x-4x3x-ax2x-5dabxxxxxxxx"
+#define APP_SECRET        ""   // Should look like "5f36xxxx-x3x7-4x3x-xexe-e86724a9xxxx-4c4axxxx-3x3x-x5xe-x9x3-333d65xxxxxx"
+#define TV_ID             ""    // Should look like "5dc1564130xxxxxxxxxxxxxx"
 #define BAUD_RATE         115200              // Change baudrate to your need
 
 bool tvPowerState;
